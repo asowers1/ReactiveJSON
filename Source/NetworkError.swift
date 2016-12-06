@@ -30,6 +30,9 @@ public enum NetworkError: ErrorType, CustomStringConvertible {
 
     /// Incorrect data returned from the server.
     case IncorrectDataReturned
+	
+	///
+	case Unauthorized
 
     internal init(error: NSError) {
         if error.domain == NSURLErrorDomain {
@@ -60,7 +63,7 @@ public enum NetworkError: ErrorType, CustomStringConvertible {
                 self = .NotConnectedToInternet
             case NSURLErrorRedirectToNonExistentLocation, NSURLErrorBadServerResponse:
                 self = .IncorrectDataReturned
-            case NSURLErrorUserCancelledAuthentication, NSURLErrorUserAuthenticationRequired:
+            case NSURLErrorUserCancelledAuthentication:
                 self = .Unknown
             case NSURLErrorZeroByteResource, NSURLErrorCannotDecodeRawData, NSURLErrorCannotDecodeContentData:
                 self = .IncorrectDataReturned
@@ -72,6 +75,8 @@ public enum NetworkError: ErrorType, CustomStringConvertible {
                 self = .Unknown
             case NSURLErrorFileDoesNotExist, NSURLErrorFileIsDirectory:
                 self = .IncorrectDataReturned
+			case NSURLErrorUserAuthenticationRequired:
+				self = .Unauthorized
             case
             NSURLErrorNoPermissionsToReadFile,
             NSURLErrorSecureConnectionFailed,
